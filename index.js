@@ -28,14 +28,9 @@ function translatorFunc(req, res, next) {
   else if (tempLang === "Korean") lang = "ko";
   else if (tempLang === "Russian") lang = "ru";
   else if (tempLang === "Spanish") lang = "es";
-  else if (tempLang === "Turkish") lang = "hi";
+  else if (tempLang === "Turkish") lang = "tr";
   else if (tempLang === "Dutch") lang = "nl";
-  
-
   promp = req.body["text"];
-  translate(promp, lang)
-    .then((result) => (out = result))
-    .catch((err) => (errType = err));
   next();
 }
 
@@ -48,10 +43,13 @@ app.get("/", (req, res) => {
 });
 
 // Post data
-app.post("/translate", (req, res) => {
-    setTimeout(() => {
-        res.send(`<h1>Translation: ${out}</h1>`);
-    }, 500);
+app.post("/translate", async (req, res) => {
+    try {
+        var translatedText = await translate(promp, lang);
+        res.send(`<h1> Translated text: ${translatedText} </h1>`);
+    } catch(err){
+        res.send(`<h1> Error: ${err.message} </h1>`);
+    }
   
 });
 
