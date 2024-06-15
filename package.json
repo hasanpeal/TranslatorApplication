@@ -1,0 +1,18 @@
+{
+  "name": "translate-app",
+  "version": "1.0.0",
+  "description": "This is a simple translation and text to speech application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peal Hasan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "text-to-speech-converter": "^1.2.0",
+    "translator-for-you": "^1.0.1"
+  }
+}
