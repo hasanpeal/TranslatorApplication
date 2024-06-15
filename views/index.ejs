@@ -1,0 +1,41 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="px-4 pt-2 mt-5 mb-3 pb-3 text-center" bis_skin_checked="1">
+    
+    <h1 class="display-5 fw-bold text-body-emphasis">TansLit</h1>
+    <div class="col-lg-6 mx-auto p-0" bis_skin_checked="1">
+      <p class="lead mb-4">Quickly translate from English to select languages and hear the voiceover. Just select a language from the dropdown menu and insert your text on the text field and hit the translate button</p>
+    </div>
+  </div>
+
+<form action="/translate" method="POST" class="ms-5 me-5">
+    <select class="form-select form-select-lg" aria-label="Large select example" name="language">
+        <option selected>Select Language</option>
+        <option> Hindi </option>
+        <option> Arabic </option>
+        <option> Chinese </option>
+        <option> Dutch </option>
+        <option> French </option>
+        <option> German </option>
+        <option> Italian </option>
+        <option> Japanese </option>
+        <option> Korean </option>
+        <option> Portugese </option>
+        <option> Russian </option>
+        <option> Spanish </option>
+        <option> Turkish </option>
+    </select>
+
+    <div class="my-4">
+        <label for="exampleFormControlInput1" class="form-label"></label>
+        <textarea type="email" name="text" class="form-control" id="exampleFormControlInput1" rows="5" placeholder="Type here"></textarea>
+    </div>
+
+    <div class="d-grid gap-2 m-3 pt-4">
+        <button class="btn btn-outline-primary" type="submit">Translate</button>
+    </div>
+
+</form>
+
+<%- include('./partials/footer.ejs') %>
+  
