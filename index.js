@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import translate from "translator-for-you";
+import fs from "fs";
+import TextToSpeech from "text-to-speech-converter";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -12,8 +14,12 @@ var promp ="";
 var out ="";
 var errType ="";
 var tempLang ="";
+var prompArr =[];
+var resArr =[];
 // This line let us use .body method
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
 
 // Custom middleware
 function translatorFunc(req, res, next) {
@@ -34,6 +40,15 @@ function translatorFunc(req, res, next) {
   next();
 }
 
+function testSpeechGeneration(inputText) {
+    const outputFilePath = "./public/test";
+    // Check if the file exists and delete it if it does
+    if (fs.existsSync(outputFilePath)) {
+      fs.unlinkSync(outputFilePath);
+    }
+    TextToSpeech(inputText, outputFilePath);
+}
+
 // Calling custom middleware
 app.use(translatorFunc);
 
@@ -42,15 +57,29 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
+app.get("/delete-history", (req, res) => {
+  prompArr = [];
+  resArr = [];
+  res.redirect("/");
+});
+
+app.get("/play", (req, res) => {
+    var audio = new Audio("test.mp3");
+    audio.play();
+});
+
 // Post data
 app.post("/translate", async (req, res) => {
     try {
         var translatedText = await translate(promp, lang);
-        res.send(`<h1> Translated text: ${translatedText} </h1>`);
+        await testSpeechGeneration(translatedText);
+        prompArr.push(promp);
+        resArr.push(translatedText);
+        res.render("translate.ejs", 
+            {ans: translatedText, texts: promp, l: tempLang, arr1: prompArr, arr2: resArr});
     } catch(err){
         res.send(`<h1> Error: ${err.message} </h1>`);
     }
-  
 });
 
 // Listening port
